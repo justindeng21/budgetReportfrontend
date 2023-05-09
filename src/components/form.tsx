@@ -24,7 +24,12 @@ const ExpenseForm = ()=>{
             },
             body: JSON.stringify(body)
 
+        }).then(()=>{
+            setExpense('')
+            setDesc('')
+            window.location.reload();
         })
+        
     }
 
     return(
@@ -73,6 +78,9 @@ const IncomeForm = ()=>{
 
 interface transactionData {
     data: Array<any>
+    budgetReport : Array<any>
+    currentBalence : number
+    isReportGen : Boolean
 }
 
 
@@ -82,7 +90,7 @@ export default class ReportingTool extends Component<{},transactionData>{
     constructor(props:any) {
         super(props);
     
-        this.state = {data:[]};
+        this.state = {data:[],budgetReport:[],currentBalence:0,isReportGen:false};
 
     }
 
@@ -92,11 +100,39 @@ export default class ReportingTool extends Component<{},transactionData>{
         this.setState({data: res})
     }
 
-    componentDidMount() {
-        this.getMonthlyTransactions();
+    calcCurrentBalence(){
+        var balance = this.state.budgetReport[0].income
+        for(var i = 0; i< this.state.data.length; i++){
+            balance -= this.state.data[i].expense
+        }
+        
+        this.setState({currentBalence:balance})
+        this.setState({isReportGen:true})
+    }
+
+    async getBudgetReport(){
+        var response = await fetch(domain + '/budgetReport');
+        var res = await response.json().then((res)=>{
+            this.setState({budgetReport: res})
+        }).then(()=>{
+            this.getMonthlyTransactions().then(()=>{
+                
+                this.calcCurrentBalence()
+                this.render()
+            })
+        })
+        
+        
+    }
+
+    async componentDidMount() {
+        await this.getBudgetReport()
     }
 
     render(): ReactNode {
+        if(this.state.isReportGen == false)
+            return null;
+
         var transactions = this.state
         return(
 
@@ -118,15 +154,16 @@ export default class ReportingTool extends Component<{},transactionData>{
                         <tbody>
                         <tr>
                             <td >Transaction Date</td>
-                            <td >Expense</td>
-                            <td >Details</td>
+                            <td >Income</td>
+                            <td >Current Balence</td>
                         </tr>
 
-                        <tr>
-                            <td >12</td>
-                            <td >213</td>
-                            <td >Ds</td>
-                        </tr>
+                        {transactions.budgetReport.map(data => 
+                        <tr key={data.id}>
+                            <td >{data.reportDate.split('T')[0].split('-')[1]+'/'+data.reportDate.split('T')[0].split('-')[2]}</td>
+                            <td >{data.income}</td>
+                            <td >{this.state.currentBalence.toFixed(2)}</td>
+                        </tr>)}
                         </tbody>
                     </table>
                 </div>
@@ -151,8 +188,8 @@ export default class ReportingTool extends Component<{},transactionData>{
                     </table>
         
                 </div>
-                <footer>hi</footer>
-        
+                <footer className='footer'></footer>
+                            
             </div>
         
         )

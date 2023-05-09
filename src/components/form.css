@@ -45,14 +45,15 @@
     align-items:center;
     grid-column-start: 1;
     grid-column-end: 5;
-    grid-row-start: 0;
-    grid-row-end: 1;
+    grid-row-start: 1;
+    grid-row-end: 2;
 }
 
 .expenseContainer{
     grid-column-start: 1;
     grid-column-end: 1;
-    grid-row-start: 1;
+    grid-row-start: 2;
+    grid-row-start: 3;
     display: flex;
     flex-direction: column;
     margin: auto;
@@ -62,7 +63,8 @@
 .budgetReportContainer{
     grid-column-start: 2;
     grid-column-end: 4;
-    grid-row-start: 1;
+    grid-row-start: 2;
+    grid-row-start: 3;
     display: flex;
     flex-direction: column;
     margin: auto;
@@ -72,12 +74,20 @@
 .reportContainer{
     grid-column-start: 2;
     grid-column-end: 4;
-    grid-row-start: 3;
+    grid-row-start: 4;
+    grid-row-start: 5;
     display: flex;
     flex-direction: column;
     margin: auto;
 }
 
+.footer{
+    align-items:center;
+    grid-column-start: 1;
+    grid-column-end: 5;
+    grid-row-start: 6;
+    grid-row-end: 7;
+}
 
 
 table, th, td {
