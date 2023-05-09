@@ -1,0 +1,111 @@
+.form{
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    border-color: transparent;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+
+.basic-input:hover{
+    border: 2px solid blue;
+    box-shadow: 0 0 10px #ffffff;
+}
+
+
+.submit{
+    width: 50%;
+    border-radius: 10px;
+    background: white;
+    border-color: white;
+    border-style: solid;
+    margin: auto;
+}
+
+.submit:hover{
+    border: 2px solid blue;
+    box-shadow: 0 0 10px #9ecaed;
+}
+
+
+.reportingTool{
+    display: grid;
+
+
+    column-gap: 10px;
+    row-gap: 10px;
+    grid-column-start: auto;
+    
+}
+
+
+.heading {
+    align-items:center;
+    grid-column-start: 1;
+    grid-column-end: 5;
+    grid-row-start: 0;
+    grid-row-end: 1;
+}
+
+.expenseContainer{
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 1;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+
+}
+
+.budgetReportContainer{
+    grid-column-start: 2;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+
+.reportContainer{
+    grid-column-start: 2;
+    grid-column-end: 4;
+    grid-row-start: 3;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+
+
+table, th, td {
+    border: 1px solid;
+    border-collapse: collapse;
+    color: black;
+}
+
+tr, td {
+    padding: 15px;
+    text-align: left;
+    
+}
+tr:nth-child(even) {background-color: gray;}
+tr:nth-child(odd) {background-color: lightgray;}
+
+tr:hover {background-color: pink}
+
+
+.App-logo {
+    height: 10vmin;
+    pointer-events: none;
+    
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+      animation: App-logo-spin infinite 20s linear;
+    }
+  }
+  
