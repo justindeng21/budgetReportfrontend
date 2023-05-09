@@ -9,10 +9,21 @@
 
 }
 
-.basic-input:hover{
-    border: 2px solid blue;
-    box-shadow: 0 0 10px #ffffff;
+
+.basic-input{
+    height: 5vh;
+    width: 100%;
+    border-radius: 10px;
+    border: 0px;
+    background-color: black;
+    caret-shape: block;
+    caret-color: white;
+    font-size: 20px;
+    color: white;
 }
+
+
+
 
 
 .submit{
@@ -24,10 +35,7 @@
     margin: auto;
 }
 
-.submit:hover{
-    border: 2px solid blue;
-    box-shadow: 0 0 10px #9ecaed;
-}
+
 
 
 .reportingTool{
@@ -50,10 +58,14 @@
 }
 
 .expenseContainer{
+    background-color: gray;
+    height: 100%;
+    padding: 20px;
+    border-radius: 10px;
     grid-column-start: 1;
     grid-column-end: 1;
     grid-row-start: 2;
-    grid-row-start: 3;
+    grid-row-start: 2;
     display: flex;
     flex-direction: column;
     margin: auto;
@@ -63,8 +75,8 @@
 .budgetReportContainer{
     grid-column-start: 2;
     grid-column-end: 4;
+    grid-row-start: 1;
     grid-row-start: 2;
-    grid-row-start: 3;
     display: flex;
     flex-direction: column;
     margin: auto;
