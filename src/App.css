@@ -4,13 +4,12 @@
 
 
 .App-header {
-  background-color: #282c34;
+  background-color: #1B1B1B;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-    gap: 20px;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #C9C9C9;
 }
 
 
