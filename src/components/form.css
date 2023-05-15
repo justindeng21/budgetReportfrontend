@@ -152,3 +152,15 @@ tr:nth-child(odd) {background-color: #262626;}
     }
   }
   
+
+  .App {
+    text-align: center;
+    background-color: #1B1B1B;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-size: calc(10px + 2vmin);
+    color: #C9C9C9;
+  }
+  
+  

@@ -3,7 +3,7 @@ import './form.css'
 
 
 import logo from '../logo.svg';
-import '../App.css';
+
 import {
     LineChart,
     Line,
@@ -14,55 +14,115 @@ import {
     Legend,
     ResponsiveContainer
   } from "recharts";
+import { Interface } from 'readline';
 
 
-var domain = 'https://budgetreportapi.herokuapp.com'
-
-const ExpenseForm = ()=>{
-    var [expense, setExpense ] = useState("")
-    var [transactionDescription, setDesc] = useState("")
 
 
-    function handleSubmit(){
-        
-        var body = {expense,transactionDescription}
-        console.log(body)
-        fetch(domain + '/createTransaction', {
+const domain = 'https://budgetreportapi.herokuapp.com'
 
-            method: 'POST', 
-            headers:{
-                'content-type':'application/json'
-            },
-            body: JSON.stringify(body)
 
-        }).then(()=>{
-            setExpense('')
-            setDesc('')
-            window.location.reload();
-        })
-        
-    }
+type expenseProp = {
 
-    return(
-        <form onSubmit={(event) => event.preventDefault()} className='form'>
-            <h5 className='postCallHeading'>Report Expense</h5>
-            <input type="text" className="basic-input" value = {expense} pattern="[0-9]*\.[0-9]{2}" placeholder='Expense' onChange={(e) => setExpense(e.target.value)}/>
-            <input type="text" className="basic-input" maxLength={50} value = {transactionDescription} placeholder='Desc.' onChange={(e) => setDesc(e.target.value)}/>
-            <button type='submit' className="submit" onClick={handleSubmit}>Submit</button>
-        </form>
-    )
+}
+
+type expenseState = {
+    expense : string
+    transactionDescription : string
+}
+
+
+type incomeState = {
+    income: string
+}
+
+type incomeProp = {
+    
+}
+
+interface transactionData {
+    data: Array<any>
+    budgetReport : Array<any>
+    currentBalence : number
+    isReportGen : Boolean
 }
 
 
 
-const IncomeForm = ()=>{
-    var [income, setIncome ] = useState("")
 
 
-    function handleSubmit(){
+
+class ExpenseFormTemp extends Component<expenseProp,expenseState>{
+
+        constructor(props : any) {
+            super(props);
+            this.state = {expense: '',transactionDescription:''};
+
+            this.handleExpenseChange = this.handleExpenseChange.bind(this);
+            this.handleDescChange = this.handleDescChange.bind(this);
+            this.handleSubmit = this.handleSubmit.bind(this);
+        }
+
+        handleExpenseChange(event : any) {
+            this.setState({expense: event.target.value});
+        }
+
+        handleDescChange(event : any) {
+            this.setState({transactionDescription: event.target.value});
+        }
+
+
+        handleSubmit(event : any) {
+            var body = this.state
+            console.log(body)
+            fetch(domain + '/createTransaction', {
+
+                method: 'POST', 
+                headers:{
+                    'content-type':'application/json'
+                },
+                body: JSON.stringify(body)
+
+            }).then(()=>{
+                window.location.reload();
+            })
         
-        var body = {income}
-        console.log(body)
+        }
+
+
+    render(): ReactNode {
+        return(
+            <form onSubmit={(event) => event.preventDefault()} className='form'>
+                <h5 className='postCallHeading'>Report Expense</h5>
+                <input type="text" className="basic-input" value = {this.state.expense} pattern="[0-9]*\.[0-9]{2}" placeholder='Expense' onChange={this.handleExpenseChange}/>
+                <input type="text" className="basic-input" maxLength={50} value = {this.state.transactionDescription} placeholder='Desc.' onChange={this.handleDescChange}/>
+                <button type='submit' className="submit" onClick={this.handleSubmit}>Submit</button>
+            </form>
+        )
+    }
+}
+
+
+
+
+class IncomeFormTemp extends Component<incomeProp,incomeState>{
+    constructor(props: any){
+        super(props)
+
+        this.state = {income:''};
+
+        this.handleIncomeChange = this.handleIncomeChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+
+    }
+
+    handleIncomeChange(event : any){
+        this.setState({income: event.target.value})
+    }
+
+
+    handleSubmit(event : any){
+        var body = this.state
         fetch(domain + '/createReport', {
 
             method: 'POST', 
@@ -74,13 +134,18 @@ const IncomeForm = ()=>{
         })
     }
 
-    return(
-        <form onSubmit={(event) => event.preventDefault()} className='form'>
-            <h5 className='postCallHeading'>Report Income</h5>
-            <input type="text" className="basic-input" value = {income} pattern="[0-9]*\.[0-9]{2}" placeholder='income' onChange={(e) => setIncome(e.target.value)}/>
-            <button type='submit' className="submit" onClick={handleSubmit}>Submit</button>
-        </form>
-    )
+    render(): ReactNode {
+
+        return(
+            <form onSubmit={(event) => event.preventDefault()} className='form'>
+                <h5 className='postCallHeading'>Report Income</h5>
+                <input type="text" className="basic-input" value = {this.state.income} pattern="[0-9]*\.[0-9]{2}" placeholder='income' onChange={this.handleIncomeChange}/>
+                <button type='submit' className="submit" onClick={this.handleSubmit}>Submit</button>
+            </form>
+        )
+
+
+    }
 }
 
 
@@ -89,12 +154,8 @@ const IncomeForm = ()=>{
 
 
 
-interface transactionData {
-    data: Array<any>
-    budgetReport : Array<any>
-    currentBalence : number
-    isReportGen : Boolean
-}
+
+
 
 
 
@@ -155,9 +216,9 @@ export default class ReportingTool extends Component<{},transactionData>{
                 <div className="expenseContainer">
                 <h5 className='postCallHeading'>Api Calls</h5>
                     
-                    <ExpenseForm></ExpenseForm>
+                    <ExpenseFormTemp></ExpenseFormTemp>
 
-                    <IncomeForm></IncomeForm>
+                    <IncomeFormTemp></IncomeFormTemp>
                 </div>
 
             
@@ -232,8 +293,6 @@ export default class ReportingTool extends Component<{},transactionData>{
                     >
                     <CartesianGrid />
                     <YAxis tick={{ fill: 'white' }}/>
-                    <Tooltip/>
-                    <Legend />
                     <Line type="monotone" dataKey="expense" stroke="white"  strokeWidth={3} dot={{ stroke: 'red'}} />
                    
                     </LineChart>
